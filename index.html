@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>✈️ Eurotrip 2026 — Plan Final</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Syne:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ─── TOKENS ─────────────────────────────────────────── */
+:root {
+  --bg:        #080b10;
+  --surface:   #0e1218;
+  --border:    rgba(255,255,255,0.07);
+  --border2:   rgba(255,255,255,0.12);
+  --text:      #e8e6e0;
+  --muted:     #5a6070;
+  --muted2:    #8a9098;
+ 
+  --portugal:  #4a90e2;
+  --frankfurt: #f5a623;
+  --prague:    #e84855;
+  --budapest:  #2ecc71;
+ 
+  --glow-p:    rgba(74,144,226,0.15);
+  --glow-f:    rgba(245,166,35,0.15);
+  --glow-pr:   rgba(232,72,85,0.15);
+  --glow-b:    rgba(46,204,113,0.15);
+}
+ 
+/* ─── RESET ──────────────────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Syne',sans-serif;
+  font-weight:400;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+ 
+/* ─── NOISE GRAIN ─────────────────────────────────────── */
+body::after{
+  content:'';
+  position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  opacity:0.035;pointer-events:none;z-index:9999;
+}
+ 
+/* ─── BACKGROUND ORBS ─────────────────────────────────── */
+.orb{
+  position:fixed;border-radius:50%;filter:blur(120px);pointer-events:none;z-index:0;
+}
+.orb-1{width:600px;height:600px;background:rgba(46,204,113,0.04);top:-200px;right:-200px;}
+.orb-2{width:500px;height:500px;background:rgba(232,72,85,0.04);bottom:-150px;left:-150px;}
+ 
+/* ─── LAYOUT ─────────────────────────────────────────── */
+.wrap{
+  max-width:1100px;margin:0 auto;
+  padding:60px 24px 100px;
+  position:relative;z-index:1;
+}
+ 
+/* ─── HEADER ─────────────────────────────────────────── */
+.header{
+  margin-bottom:64px;
+  animation:fadeUp .7s ease both;
+}
+ 
+.header-top{
+  display:flex;align-items:flex-start;justify-content:space-between;
+  flex-wrap:wrap;gap:24px;
+}
+ 
+.eyebrow{
+  display:flex;align-items:center;gap:8px;
+  font-size:11px;letter-spacing:4px;text-transform:uppercase;
+  color:var(--budapest);margin-bottom:16px;font-weight:600;
+}
+.eyebrow-dot{width:6px;height:6px;border-radius:50%;background:var(--budapest);}
+ 
+h1{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(52px,9vw,96px);
+  line-height:.92;
+  letter-spacing:-2px;
+  color:#fff;
+}
+h1 em{
+  font-style:italic;color:var(--budapest);
+}
+ 
+.subtitle{
+  margin-top:16px;
+  font-size:14px;color:var(--muted2);letter-spacing:.5px;
+}
+ 
+/* ─── TRAVELERS BADGE ─────────────────────────────────── */
+.travelers{
+  display:flex;flex-direction:column;gap:12px;align-items:flex-end;
+}
+ 
+.travelers-label{
+  font-size:10px;letter-spacing:3px;text-transform:uppercase;
+  color:var(--muted);
+}
+ 
+.avatars{
+  display:flex;gap:0;
+}
+.avatar{
+  width:44px;height:44px;border-radius:50%;
+  border:2.5px solid var(--bg);
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;font-weight:700;color:#fff;
+  margin-left:-10px;
+  transition:transform .2s;
+}
+.avatar:first-child{margin-left:0;}
+.avatar:hover{transform:translateY(-4px);}
+.avatar-J{background:linear-gradient(135deg,#4a90e2,#2c6fad);}
+.avatar-S{background:linear-gradient(135deg,#e84855,#a52833);}
+.avatar-F{background:linear-gradient(135deg,#f5a623,#c07d10);}
+ 
+.people-select-row{
+  display:flex;align-items:center;gap:8px;margin-top:4px;
+}
+.people-select-row label{font-size:11px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;}
+.people-select{
+  background:var(--surface);border:1px solid var(--border2);
+  color:var(--text);font-family:'Syne',sans-serif;
+  font-size:13px;padding:6px 12px;border-radius:8px;outline:none;cursor:pointer;
+}
+.people-select:focus{border-color:var(--budapest);}
+ 
+/* ─── DIVIDER LINE ────────────────────────────────────── */
+.divider{
+  width:100%;height:1px;
+  background:linear-gradient(90deg,transparent,var(--border2) 20%,var(--border2) 80%,transparent);
+  margin:40px 0;
+}
+ 
+/* ─── ROUTE LINE ─────────────────────────────────────── */
+.route-line{
+  display:flex;align-items:center;gap:0;
+  margin-bottom:60px;
+  overflow-x:auto;padding-bottom:4px;
+  animation:fadeUp .7s .1s ease both;
+}
+ 
+.route-city{
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  min-width:80px;
+}
+.route-city-dot{
+  width:12px;height:12px;border-radius:50%;
+  box-shadow:0 0 16px currentColor;
+  flex-shrink:0;
+}
+.route-city-name{font-size:11px;letter-spacing:2px;text-transform:uppercase;font-weight:600;}
+.route-city-date{font-size:10px;color:var(--muted);}
+ 
+.route-arrow{
+  flex:1;height:1px;
+  min-width:30px;
+  position:relative;margin-bottom:18px;
+}
+.route-arrow::before{
+  content:'';position:absolute;top:0;left:0;right:0;
+  border-top:1px dashed var(--border2);
+}
+.route-arrow::after{
+  content:'›';position:absolute;right:-6px;top:-10px;
+  color:var(--muted);font-size:14px;
+}
+.route-transport{
+  position:absolute;top:-18px;left:50%;transform:translateX(-50%);
+  font-size:14px;white-space:nowrap;
+}
+ 
+/* city colors */
+.c-portugal  {color:var(--portugal);}
+.c-frankfurt {color:var(--frankfurt);}
+.c-prague    {color:var(--prague);}
+.c-budapest  {color:var(--budapest);}
+.bg-portugal  {background:var(--portugal);}
+.bg-frankfurt {background:var(--frankfurt);}
+.bg-prague    {background:var(--prague);}
+.bg-budapest  {background:var(--budapest);}
+ 
+/* ─── MAIN GRID ───────────────────────────────────────── */
+.main-grid{
+  display:grid;
+  grid-template-columns:1fr 380px;
+  gap:24px;
+  animation:fadeUp .7s .2s ease both;
+}
+@media(max-width:860px){.main-grid{grid-template-columns:1fr;}}
+ 
+/* ─── CARDS ──────────────────────────────────────────── */
+.card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:20px;
+  overflow:hidden;
+}
+ 
+.card-header{
+  padding:20px 24px 16px;
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+}
+ 
+.card-title{
+  font-size:12px;letter-spacing:3px;text-transform:uppercase;
+  color:var(--muted2);font-weight:600;
+}
+ 
+/* ─── TOTAL HERO ──────────────────────────────────────── */
+.total-hero{
+  padding:32px 24px;
+  text-align:center;
+  border-bottom:1px solid var(--border);
+}
+.total-hero-label{
+  font-size:10px;letter-spacing:3px;text-transform:uppercase;
+  color:var(--muted);margin-bottom:8px;
+}
+.total-pp{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(40px,7vw,64px);
+  font-weight:900;color:#fff;line-height:1;
+}
+.total-group{
+  margin-top:8px;font-size:13px;color:var(--muted2);
+}
+.total-group span{color:var(--budapest);font-weight:600;}
+ 
+/* ─── COST ROWS ───────────────────────────────────────── */
+.cost-rows{padding:8px 0;}
+ 
+.cost-row{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:11px 24px;
+  border-bottom:1px solid var(--border);
+  transition:background .15s;
+}
+.cost-row:last-child{border-bottom:none;}
+.cost-row:hover{background:rgba(255,255,255,0.02);}
+ 
+.cost-row-left{display:flex;align-items:center;gap:10px;}
+ 
+.cost-icon{
+  font-size:16px;width:32px;height:32px;
+  display:flex;align-items:center;justify-content:center;
+  border-radius:8px;background:rgba(255,255,255,0.04);
+  flex-shrink:0;
+}
+ 
+.cost-label{font-size:13px;color:var(--muted2);}
+.cost-value{
+  font-size:14px;font-weight:600;color:#fff;
+  font-variant-numeric:tabular-nums;
+}
+ 
+.cost-total-row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:14px 24px;
+  background:rgba(46,204,113,0.06);
+}
+.cost-total-label{font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--budapest);font-weight:600;}
+.cost-total-value{font-size:20px;font-weight:700;color:var(--budapest);font-variant-numeric:tabular-nums;}
+ 
+/* ─── INPUTS SECTION ─────────────────────────────────── */
+.inputs-grid{
+  display:grid;gap:14px;
+  padding:24px;
+}
+ 
+.inputs-section-title{
+  font-size:10px;letter-spacing:2px;text-transform:uppercase;
+  color:var(--muted);padding-top:4px;font-weight:700;
+}
+ 
+.input-group{display:flex;flex-direction:column;gap:6px;}
+.input-group label{
+  font-size:10px;letter-spacing:2px;text-transform:uppercase;
+  color:var(--muted);font-weight:600;
+}
+.input-prefix{
+  display:flex;align-items:center;
+  position:relative;
+}
+.input-prefix .euro-sym{
+  position:absolute;left:14px;color:var(--muted);font-size:13px;pointer-events:none;
+}
+.input-prefix input{padding-left:28px;}
+ 
+.input-group input{
+  background:rgba(255,255,255,0.04);
+  border:1px solid var(--border);
+  border-radius:10px;
+  color:#fff;
+  font-family:'Syne',sans-serif;
+  font-size:14px;font-weight:600;
+  padding:10px 14px;
+  outline:none;
+  transition:border-color .2s,background .2s;
+  width:100%;
+}
+.input-group input:focus{
+  border-color:var(--budapest);
+  background:rgba(46,204,113,0.06);
+}
+ 
+.inputs-note{
+  font-size:10px;color:var(--muted);line-height:1.6;
+  border-top:1px solid var(--border);padding-top:14px;
+}
+ 
+/* ─── ITINERARY ───────────────────────────────────────── */
+.stops{display:flex;flex-direction:column;gap:0;}
+ 
+.stop{
+  display:grid;
+  grid-template-columns:90px 1fr;
+  border-bottom:1px solid var(--border);
+}
+.stop:last-child{border-bottom:none;}
+ 
+.stop-date-col{
+  padding:20px 16px 20px 0;
+  border-right:1px solid var(--border);
+  display:flex;flex-direction:column;gap:4px;
+  align-items:flex-end;
+}
+.stop-date-day{
+  font-size:28px;font-family:'Playfair Display',serif;font-weight:900;
+  line-height:1;color:#fff;
+}
+.stop-date-mon{
+  font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);
+}
+.stop-date-dow{
+  font-size:10px;color:var(--muted2);
+}
+ 
+.stop-content{
+  padding:20px 0 20px 20px;
+  display:flex;flex-direction:column;gap:8px;
+  position:relative;
+}
+ 
+.stop-content::before{
+  content:'';
+  position:absolute;left:0;top:12px;bottom:12px;
+  width:3px;border-radius:2px;
+}
+.stop.portugal  .stop-content::before{background:var(--portugal);}
+.stop.frankfurt .stop-content::before{background:var(--frankfurt);}
+.stop.prague    .stop-content::before{background:var(--prague);}
+.stop.budapest  .stop-content::before{background:var(--budapest);}
+ 
+.stop-city-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.stop-city-name{
+  font-size:18px;font-weight:700;color:#fff;
+}
+.stop-nights-badge{
+  font-size:9px;letter-spacing:2px;text-transform:uppercase;
+  padding:3px 8px;border-radius:20px;font-weight:700;
+}
+.stop.portugal  .stop-nights-badge{background:var(--glow-p);color:var(--portugal);}
+.stop.frankfurt .stop-nights-badge{background:var(--glow-f);color:var(--frankfurt);}
+.stop.prague    .stop-nights-badge{background:var(--glow-pr);color:var(--prague);}
+.stop.budapest  .stop-nights-badge{background:var(--glow-b);color:var(--budapest);}
+ 
+.stop-points{
+  list-style:none;
+  display:flex;flex-direction:column;gap:3px;
+}
+.stop-points li{
+  font-size:12px;color:var(--muted2);
+  display:flex;align-items:flex-start;gap:6px;
+}
+.stop-points li::before{
+  content:'·';color:var(--muted);flex-shrink:0;
+}
+ 
+.transport-row{
+  background:rgba(255,255,255,0.02);
+  padding:10px 16px;
+  border-bottom:1px solid var(--border);
+  font-size:11px;color:var(--muted);
+  display:flex;align-items:center;gap:8px;
+  letter-spacing:.5px;
+}
+.transport-row em{
+  font-style:normal;color:var(--muted2);
+}
+ 
+/* ─── CALENDAR ────────────────────────────────────────── */
+.calendar-grid{
+  padding:20px 24px 24px;
+}
+.cal-week-header{
+  display:grid;grid-template-columns:repeat(7,1fr);
+  margin-bottom:8px;
+}
+.cal-week-header span{
+  font-size:9px;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--muted);text-align:center;font-weight:700;
+}
+.cal-days{
+  display:grid;grid-template-columns:repeat(7,1fr);gap:4px;
+}
+.cal-day{
+  aspect-ratio:1;display:flex;align-items:center;justify-content:center;
+  border-radius:8px;font-size:11px;font-weight:600;
+  color:var(--muted);transition:all .15s;
+  position:relative;
+}
+.cal-day.portugal {background:var(--glow-p);color:var(--portugal);}
+.cal-day.frankfurt{background:var(--glow-f);color:var(--frankfurt);}
+.cal-day.prague   {background:var(--glow-pr);color:var(--prague);}
+.cal-day.budapest {background:var(--glow-b);color:var(--budapest);}
+ 
+.cal-legend{
+  display:grid;grid-template-columns:1fr 1fr;gap:6px;
+  margin-top:16px;padding-top:16px;
+  border-top:1px solid var(--border);
+}
+.legend-item{
+  display:flex;align-items:center;gap:6px;
+  font-size:10px;color:var(--muted2);letter-spacing:.5px;
+}
+.legend-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+ 
+/* ─── SIDEBAR ─────────────────────────────────────────── */
+.sidebar{display:flex;flex-direction:column;gap:24px;}
+ 
+/* ─── ANIMATIONS ──────────────────────────────────────── */
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(20px);}
+  to  {opacity:1;transform:translateY(0);}
+}
+ 
+/* ─── RESPONSIVE ──────────────────────────────────────── */
+@media(max-width:600px){
+  h1{font-size:44px;}
+  .stop{grid-template-columns:64px 1fr;}
+  .stop-date-day{font-size:22px;}
+}
+</style>
+</head>
+<body>
+ 
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+ 
+<div class="wrap">
+ 
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-top">
+      <div>
+        <div class="eyebrow">
+          <div class="eyebrow-dot"></div>
+          Plan Final · Mayo 2026
+        </div>
+        <h1>Euro<em>trip</em><br>2026</h1>
+        <p class="subtitle">Frankfurt &nbsp;·&nbsp; Praga &nbsp;·&nbsp; Budapest</p>
+      </div>
+      <div class="travelers">
+        <div class="travelers-label">Viajeros</div>
+        <div class="avatars">
+          <div class="avatar avatar-J" title="Julio">J</div>
+          <div class="avatar avatar-S" title="Santiago">S</div>
+          <div class="avatar avatar-F" title="Federico">F</div>
+        </div>
+        <div class="people-select-row">
+          <label for="people">Personas:</label>
+          <select id="people" class="people-select" onchange="recalc()">
+            <option value="2">2</option>
+            <option value="3" selected>3</option>
+            <option value="4">4</option>
+          </select>
+        </div>
+      </div>
+    </div>
+ 
+    <div class="divider"></div>
+ 
+    <!-- ROUTE LINE -->
+    <div class="route-line">
+      <div class="route-city">
+        <div class="route-city-dot bg-portugal"></div>
+        <div class="route-city-name c-portugal">Portugal</div>
+        <div class="route-city-date">22/05</div>
+      </div>
+      <div class="route-arrow"><span class="route-transport">✈️</span></div>
+      <div class="route-city">
+        <div class="route-city-dot bg-frankfurt"></div>
+        <div class="route-city-name c-frankfurt">Frankfurt</div>
+        <div class="route-city-date">24/05</div>
+      </div>
+      <div class="route-arrow"><span class="route-transport">🚌</span></div>
+      <div class="route-city">
+        <div class="route-city-dot bg-prague"></div>
+        <div class="route-city-name c-prague">Praga</div>
+        <div class="route-city-date">26/05</div>
+      </div>
+      <div class="route-arrow"><span class="route-transport">🚆</span></div>
+      <div class="route-city">
+        <div class="route-city-dot bg-budapest"></div>
+        <div class="route-city-name c-budapest">Budapest</div>
+        <div class="route-city-date">28/05</div>
+      </div>
+    </div>
+  </header>
+ 
+  <!-- MAIN GRID -->
+  <div class="main-grid">
+ 
+    <!-- LEFT COLUMN -->
+    <div style="display:flex;flex-direction:column;gap:24px;">
+ 
+      <!-- BUDGET CARD -->
+      <div class="card">
+        <div class="total-hero">
+          <div class="total-hero-label">Presupuesto estimado por persona</div>
+          <div class="total-pp" id="totalPP">€ —</div>
+          <div class="total-group">Total grupo: <span id="totalGroup">€ —</span></div>
+        </div>
+ 
+        <div class="cost-rows">
+          <div class="cost-row">
+            <div class="cost-row-left">
+              <div class="cost-icon">✈️</div>
+              <div class="cost-label">Vuelo Porto → Frankfurt</div>
+            </div>
+            <div class="cost-value" id="dFlight">—</div>
+          </div>
+          <div class="cost-row">
+            <div class="cost-row-left">
+              <div class="cost-icon">🏨</div>
+              <div class="cost-label">Frankfurt · 1 noche</div>
+            </div>
+            <div class="cost-value" id="dFRA">—</div>
+          </div>
+          <div class="cost-row">
+            <div class="cost-row-left">
+              <div class="cost-icon">🚌</div>
+              <div class="cost-label">Bus nocturno → Praga</div>
+            </div>
+            <div class="cost-value" id="dBus">—</div>
+          </div>
+          <div class="cost-row">
+            <div class="cost-row-left">
+              <div class="cost-icon">🏨</div>
+              <div class="cost-label">Praga · 2 noches</div>
+            </div>
+            <div class="cost-value" id="dPRG">—</div>
+          </div>
+          <div class="cost-row">
+            <div class="cost-row-left">
+              <div class="cost-icon">🚆</div>
+              <div class="cost-label">Tren directo → Budapest</div>
+            </div>
+            <div class="cost-value" id="dTrain">—</div>
+          </div>
+          <div class="cost-row">
+            <div class="cost-row-left">
+              <div class="cost-icon">🏨</div>
+              <div class="cost-label">Budapest · 3 noches</div>
+            </div>
+            <div class="cost-value" id="dBUD">—</div>
+          </div>
+          <div class="cost-row">
+            <div class="cost-row-left">
+              <div class="cost-icon">🚇</div>
+              <div class="cost-label">Transporte urbano</div>
+            </div>
+            <div class="cost-value" id="dUrban">—</div>
+          </div>
+        </div>
+ 
+        <div class="cost-total-row">
+          <span class="cost-total-label">Total / persona</span>
+          <span class="cost-total-value" id="totalPP2">€ —</span>
+        </div>
+      </div>
+ 
+      <!-- ITINERARY CARD -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">🗺️ Itinerario</span>
+          <span style="font-size:11px;color:var(--muted);">22/05 → 30/05</span>
+        </div>
+ 
+        <div class="stops">
+ 
+          <div class="stop portugal">
+            <div class="stop-date-col">
+              <div class="stop-date-day">22</div>
+              <div class="stop-date-mon">Mayo</div>
+              <div class="stop-date-dow">Viernes</div>
+            </div>
+            <div class="stop-content">
+              <div class="stop-city-row">
+                <div class="stop-city-name">📍 Portugal</div>
+                <span class="stop-nights-badge">Base</span>
+              </div>
+              <ul class="stop-points">
+                <li>Llegada 9 AM. Inicio del viaje.</li>
+                <li>Días de descanso y preparativos.</li>
+              </ul>
+            </div>
+          </div>
+ 
+          <div class="transport-row">✈️ &nbsp;<em>Vuelo matutino · Porto → Frankfurt · Dom 24/05</em></div>
+ 
+          <div class="stop frankfurt">
+            <div class="stop-date-col">
+              <div class="stop-date-day">24</div>
+              <div class="stop-date-mon">Mayo</div>
+              <div class="stop-date-dow">Domingo</div>
+            </div>
+            <div class="stop-content">
+              <div class="stop-city-row">
+                <div class="stop-city-name">🇩🇪 Frankfurt</div>
+                <span class="stop-nights-badge">1 noche</span>
+              </div>
+              <ul class="stop-points">
+                <li>Römerberg y orilla del Main.</li>
+                <li>Skyline desde el Main Tower.</li>
+                <li>Noche en Alt-Sachsenhausen.</li>
+                <li>1:00 AM — bus nocturno hacia Praga.</li>
+              </ul>
+            </div>
+          </div>
+ 
+          <div class="transport-row">🚌 &nbsp;<em>Bus nocturno 1:00 AM · Frankfurt → Praga · ~6 h · Mar 26/05</em></div>
+ 
+          <div class="stop prague">
+            <div class="stop-date-col">
+              <div class="stop-date-day">26</div>
+              <div class="stop-date-mon">Mayo</div>
+              <div class="stop-date-dow">Martes</div>
+            </div>
+            <div class="stop-content">
+              <div class="stop-city-row">
+                <div class="stop-city-name">🇨🇿 Praga</div>
+                <span class="stop-nights-badge">2 noches · 26 y 27</span>
+              </div>
+              <ul class="stop-points">
+                <li>Llegada temprana. Check-in.</li>
+                <li>Puente Carlos + Reloj Astronómico.</li>
+                <li>Castillo de Praga y Mala Strana (día 27).</li>
+                <li>Cervecerías tradicionales por la noche.</li>
+              </ul>
+            </div>
+          </div>
+ 
+          <div class="transport-row">🚆 &nbsp;<em>Tren directo · Praga → Budapest · ~6 h · Jue 28/05</em></div>
+ 
+          <div class="stop budapest">
+            <div class="stop-date-col">
+              <div class="stop-date-day">28</div>
+              <div class="stop-date-mon">Mayo</div>
+              <div class="stop-date-dow">Jueves</div>
+            </div>
+            <div class="stop-content">
+              <div class="stop-city-row">
+                <div class="stop-city-name">🇭🇺 Budapest</div>
+                <span class="stop-nights-badge">3 noches · 28, 29 y 30</span>
+              </div>
+              <ul class="stop-points">
+                <li>Parlamento y paseo por el Danubio.</li>
+                <li>Bastión de los Pescadores (día 29).</li>
+                <li>Termas Széchenyi.</li>
+                <li>Szimpla Kert y ruin bars.</li>
+                <li>Isla Margarita o relax (día 30).</li>
+              </ul>
+            </div>
+          </div>
+ 
+        </div>
+      </div>
+    </div>
+ 
+    <!-- RIGHT SIDEBAR -->
+    <div class="sidebar">
+ 
+      <!-- CALENDAR -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">📅 Mayo 2026</span>
+        </div>
+        <div class="calendar-grid">
+          <div class="cal-week-header">
+            <span>D</span><span>L</span><span>M</span><span>X</span><span>J</span><span>V</span><span>S</span>
+          </div>
+          <div class="cal-days" id="calDays"></div>
+          <div class="cal-legend">
+            <div class="legend-item"><div class="legend-dot" style="background:var(--portugal)"></div>Portugal</div>
+            <div class="legend-item"><div class="legend-dot" style="background:var(--frankfurt)"></div>Frankfurt</div>
+            <div class="legend-item"><div class="legend-dot" style="background:var(--prague)"></div>Praga</div>
+            <div class="legend-item"><div class="legend-dot" style="background:var(--budapest)"></div>Budapest</div>
+          </div>
+        </div>
+      </div>
+ 
+      <!-- INPUTS -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">⚙️ Ajustar costos</span>
+          <span style="font-size:10px;color:var(--muted);">€ EUR</span>
+        </div>
+        <div class="inputs-grid">
+ 
+          <div class="inputs-section-title">Vuelos</div>
+ 
+          <div class="input-group">
+            <label>Porto → Frankfurt</label>
+            <div class="input-prefix">
+              <span class="euro-sym">€</span>
+              <input type="number" id="flight" value="47" min="0" oninput="recalc()">
+            </div>
+          </div>
+ 
+          <div class="inputs-section-title">Transportes internos (por persona)</div>
+ 
+          <div class="input-group">
+            <label>Bus Frankfurt → Praga</label>
+            <div class="input-prefix">
+              <span class="euro-sym">€</span>
+              <input type="number" id="bus" value="35" min="0" oninput="recalc()">
+            </div>
+          </div>
+ 
+          <div class="input-group">
+            <label>Tren Praga → Budapest</label>
+            <div class="input-prefix">
+              <span class="euro-sym">€</span>
+              <input type="number" id="train" value="35" min="0" oninput="recalc()">
+            </div>
+          </div>
+ 
+          <div class="input-group">
+            <label>Transporte urbano (total)</label>
+            <div class="input-prefix">
+              <span class="euro-sym">€</span>
+              <input type="number" id="urban" value="30" min="0" oninput="recalc()">
+            </div>
+          </div>
+ 
+          <div class="inputs-section-title">Alojamiento (habitación / noche)</div>
+ 
+          <div class="input-group">
+            <label>Frankfurt — 1 noche</label>
+            <div class="input-prefix">
+              <span class="euro-sym">€</span>
+              <input type="number" id="hotelFRA" value="150" min="0" oninput="recalc()">
+            </div>
+          </div>
+ 
+          <div class="input-group">
+            <label>Praga — 2 noches</label>
+            <div class="input-prefix">
+              <span class="euro-sym">€</span>
+              <input type="number" id="hotelPRG" value="110" min="0" oninput="recalc()">
+            </div>
+          </div>
+ 
+          <div class="input-group">
+            <label>Budapest — 3 noches</label>
+            <div class="input-prefix">
+              <span class="euro-sym">€</span>
+              <input type="number" id="hotelBUD" value="120" min="0" oninput="recalc()">
+            </div>
+          </div>
+ 
+          <p class="inputs-note">
+            El alojamiento se ingresa como precio total de la habitación por noche y se divide automáticamente entre los viajeros seleccionados. Vuelos y transportes son precios por persona.
+          </p>
+        </div>
+      </div>
+ 
+    </div>
+  </div>
+ 
+</div>
+ 
+<script>
+/* ─── CALENDAR ─── */
+const dayCity = {
+  22:'portugal',23:'portugal',
+  24:'frankfurt',25:'frankfurt',
+  26:'prague',27:'prague',
+  28:'budapest',29:'budapest',30:'budapest'
+};
+ 
+function buildCalendar() {
+  const c = document.getElementById('calDays');
+  // May 2026 starts on Friday = index 5 (Sun=0)
+  for(let i=0;i<5;i++){
+    const e=document.createElement('div');e.className='cal-day';c.appendChild(e);
+  }
+  for(let d=1;d<=31;d++){
+    const el=document.createElement('div');
+    const city=dayCity[d];
+    el.className='cal-day'+(city?' '+city:'');
+    el.textContent=d;
+    if(city)el.title=city.charAt(0).toUpperCase()+city.slice(1);
+    c.appendChild(el);
+  }
+}
+ 
+/* ─── FORMAT ─── */
+function eur(n){
+  return '€\u202f'+(isFinite(n)?Math.round(n):0).toLocaleString('es-AR');
+}
+function v(id){return parseFloat(document.getElementById(id).value)||0;}
+ 
+/* ─── CALC ─── */
+function recalc(){
+  const people = parseInt(document.getElementById('people').value);
+  const flight  = v('flight');
+  const bus     = v('bus');
+  const train   = v('train');
+  const urban   = v('urban');
+  const hFRA    = v('hotelFRA')*1/people;
+  const hPRG    = v('hotelPRG')*2/people;
+  const hBUD    = v('hotelBUD')*3/people;
+  const total   = flight+bus+train+urban+hFRA+hPRG+hBUD;
+ 
+  document.getElementById('dFlight').textContent = eur(flight);
+  document.getElementById('dBus').textContent    = eur(bus);
+  document.getElementById('dTrain').textContent  = eur(train);
+  document.getElementById('dUrban').textContent  = eur(urban);
+  document.getElementById('dFRA').textContent    = eur(hFRA);
+  document.getElementById('dPRG').textContent    = eur(hPRG);
+  document.getElementById('dBUD').textContent    = eur(hBUD);
+ 
+  document.getElementById('totalPP').textContent    = eur(total);
+  document.getElementById('totalPP2').textContent   = eur(total);
+  document.getElementById('totalGroup').textContent = eur(total*people);
+}
+ 
+buildCalendar();
+recalc();
+</script>
+</body>
+</html>
