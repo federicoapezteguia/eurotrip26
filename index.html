@@ -3,206 +3,154 @@
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Eurotrip 2026 — Plan Maestro</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+    <title>Eurotrip 2026 — Etapa 2: Fede & Tone</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;600;800&family=Inter:wght@400;500&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #030508;
-            --surface: #0e121a;
-            --border: rgba(255,255,255,0.07);
-            --text: #f1f5f9;
-            --muted: #64748b;
-            --c-frankfurt: #818cf8;  
-            --c-prague: #f87171;     
-            --c-bratislava: #fbbf24; 
-            --c-budapest: #10b981;   
+            --bg: #05070a; --surface: #0f1219; --border: rgba(255,255,255,0.08); --text: #f0f2f5; --muted: #6b7280;
+            --c-bud: #10b981; --c-bel: #facc15; /* Amarillo Bélgica */
         }
-
         *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-        body{ background:var(--bg); color:var(--text); font-family:'Inter', sans-serif; min-height:100vh; line-height: 1.5; }
+        body{ background:var(--bg); color:var(--text); font-family:'Inter', sans-serif; min-height:100vh; }
 
-        .container { max-width:1200px; margin:0 auto; padding:40px 24px; }
-        header { margin-bottom: 40px; border-left: 4px solid var(--c-bratislava); padding-left: 20px; }
-        h1 { font-family:'Outfit', sans-serif; font-size: 48px; font-weight: 700; letter-spacing: -1.5px; }
+        .container { max-width: 1400px; margin: 0 auto; padding: 40px 24px; display: grid; grid-template-columns: 1fr 400px; gap: 32px; }
+        @media (max-width: 1100px) { .container { grid-template-columns: 1fr; } }
 
-        .main-grid { display: grid; grid-template-columns: 1fr 380px; gap: 40px; align-items: start; }
-        @media (max-width: 950px) { .main-grid { grid-template-columns: 1fr; } }
+        h1 { font-family:'Outfit', sans-serif; font-size: 52px; font-weight: 800; letter-spacing: -2px; margin-bottom: 10px; }
+        .subtitle { color: var(--muted); margin-bottom: 30px; font-size: 14px; letter-spacing: 1px; text-transform: uppercase; }
 
         .card { background: var(--surface); border: 1px solid var(--border); border-radius: 24px; overflow: hidden; margin-bottom: 24px; }
-        .card-header { padding: 18px 24px; border-bottom: 1px solid var(--border); background: rgba(255,255,255,0.01); }
-        .card-title { font-family: 'Outfit', sans-serif; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+        .card-header { padding: 16px 24px; border-bottom: 1px solid var(--border); font-family: 'Outfit', sans-serif; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); font-weight: 700; }
 
-        /* RUTA Y ATRACTIVOS */
-        .roadmap-item { display: flex; gap: 24px; padding: 32px 24px; position: relative; }
-        .roadmap-marker { width: 14px; height: 14px; border-radius: 50%; margin-top: 8px; z-index: 2; flex-shrink: 0; position: relative; }
-        .roadmap-item::before { content: ''; position: absolute; left: 30px; top: 60px; bottom: -40px; width: 1px; background: var(--border); z-index: 1; }
-        .roadmap-item:last-child::before { display: none; }
+        /* ITINERARIO */
+        .roadmap-item { display: flex; gap: 20px; padding: 20px 24px; border-bottom: 1px solid rgba(255,255,255,0.03); }
+        .city-name { font-family: 'Outfit', sans-serif; font-size: 22px; font-weight: 600; color: #fff; display: flex; align-items: center; gap: 10px; }
+        .flight-info { font-size: 12px; color: var(--c-bel); font-family: 'JetBrains Mono'; margin: 5px 0; }
+        .mini-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+        .tag { font-size: 11px; background: rgba(255,255,255,0.05); padding: 4px 10px; border-radius: 20px; color: #cbd5e1; }
 
-        .roadmap-city { font-family: 'Outfit', sans-serif; font-size: 24px; font-weight: 600; color: #fff; margin-bottom: 4px; }
-        .roadmap-address { font-size: 13px; color: var(--c-bratislava); font-family: 'JetBrains Mono', monospace; margin-bottom: 15px; }
-        
-        .attractions-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 10px; margin-top: 15px; }
-        .attr-card { background: rgba(255,255,255,0.03); padding: 10px 14px; border-radius: 12px; border: 1px solid transparent; transition: 0.3s; }
-        .attr-card:hover { border-color: rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); }
-        .attr-card span { display: block; font-size: 13px; font-weight: 600; color: #eee; }
-        .attr-card small { font-size: 11px; color: var(--muted); line-height: 1.2; display: block; margin-top: 2px; }
+        /* MAPA */
+        #map { height: 350px; width: 100%; background: #000; }
 
-        /* LIQUIDACIÓN (DERECHA) */
-        .debt-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
-        .total-hero { padding: 30px; text-align: center; background: linear-gradient(to bottom, rgba(251,191,36,0.05), transparent); }
-        .total-val { font-family: 'Outfit', sans-serif; font-size: 44px; font-weight: 700; color: #fff; }
+        /* CALENDARIO JUNIO */
+        .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; padding: 20px; }
+        .cal-day { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; font-size: 11px; border-radius: 10px; background: rgba(255,255,255,0.02); color: var(--muted); }
+        .cal-active { font-weight: 800; color: #000; }
 
-        .dot-fra { background: var(--c-frankfurt); box-shadow: 0 0 15px var(--c-frankfurt); }
-        .dot-pra { background: var(--c-prague); box-shadow: 0 0 15px var(--c-prague); }
-        .dot-bra { background: var(--c-bratislava); box-shadow: 0 0 15px var(--c-bratislava); }
-        .dot-bud { background: var(--c-budapest); box-shadow: 0 0 15px var(--c-budapest); }
+        /* ECONOMÍA ETAPA 2 */
+        .debt-line { display: flex; justify-content: space-between; padding: 10px 20px; font-size: 13px; border-bottom: 1px solid var(--border); }
+        .amt { font-family: 'JetBrains Mono'; color: var(--c-bud); font-weight: 600; }
+        .dot { width: 8px; height: 8px; border-radius: 50%; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <header>
-        <h1>Eurotrip <span>2026</span></h1>
-    </header>
-
-    <div class="main-grid">
-        <div class="col-main">
-            <div class="card">
-                <div class="card-header"><span class="card-title">Hoja de Ruta y Sugerencias</span></div>
-                
-                <div class="roadmap-item">
-                    <div class="roadmap-marker dot-fra"></div>
-                    <div class="roadmap-content">
-                        <div class="roadmap-city">Frankfurt <small style="color:var(--muted); font-weight:400; font-size:14px;">24—26 May</small></div>
-                        <div class="roadmap-address">Stiftsrabe 22</div>
-                        <div class="attractions-grid">
-                            <div class="attr-card"><span>Main Tower</span><small>Observatorio con vista a los rascacielos.</small></div>
-                            <div class="attr-card"><span>Römerberg</span><small>Plaza histórica y el ayuntamiento.</small></div>
-                            <div class="attr-card"><span>Eiserner Steg</span><small>Puente de los candados sobre el Meno.</small></div>
-                        </div>
+    <div class="main-content">
+        <h1>Etapa 2: <span>Bélgica</span></h1>
+        <div class="subtitle">Solo Fede & Tone · Cuentas desde cero</div>
+        
+        <div class="card">
+            <div class="card-header">Vuelo y Hospedaje</div>
+            <div class="roadmap-item">
+                <div style="flex:1">
+                    <div class="city-name"><div class="dot" style="background:var(--c-bud)"></div>Budapest → Charleroi</div>
+                    <div class="flight-info">Martes 02/06 · 13:40 → 15:45</div>
+                    <div class="mini-tags"><span class="tag">Vuelo: $190 USD</span></div>
+                </div>
+            </div>
+            <div class="roadmap-item">
+                <div style="flex:1">
+                    <div class="city-name"><div class="dot" style="background:var(--c-bel)"></div>Gante / Bélgica</div>
+                    <div class="addr" style="color:var(--c-bel); font-size:12px; margin-top:5px;">KaBa Hostel (02/06 - 06/06)</div>
+                    <div class="mini-tags">
+                        <span class="tag">Graslei & Korenlei</span><span class="tag">Castillo de los Condes</span><span class="tag">Cervecería Dulle Teve</span>
                     </div>
                 </div>
-
-                <div class="roadmap-item">
-                    <div class="roadmap-marker dot-pra"></div>
-                    <div class="roadmap-content">
-                        <div class="roadmap-city">Praga <small style="color:var(--muted); font-weight:400; font-size:14px;">26—28 May</small></div>
-                        <div class="roadmap-address">Skorepka 3</div>
-                        <div class="attractions-grid">
-                            <div class="attr-card"><span>Puente Carlos</span><small>Cruzalo al amanecer o anochecer.</small></div>
-                            <div class="attr-card"><span>Castillo de Praga</span><small>El castillo antiguo más grande del mundo.</small></div>
-                            <div class="attr-card"><span>Reloj Astronómico</span><small>Show medieval cada hora en punto.</small></div>
-                            <div class="attr-card"><span>Beer Spa</span><small>Experiencia típica de baños en cerveza.</small></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="roadmap-item">
-                    <div class="roadmap-marker dot-bra"></div>
-                    <div class="roadmap-content">
-                        <div class="roadmap-city">Bratislava <small style="color:var(--muted); font-weight:400; font-size:14px;">28—29 May</small></div>
-                        <div class="roadmap-address">Zidovska 19</div>
-                        <div class="attractions-grid">
-                            <div class="attr-card"><span>Castillo de Bratislava</span><small>Vistas panorámicas de 3 países.</small></div>
-                            <div class="attr-card"><span>Cumil</span><small>La famosa estatua del "trabajador" en la alcantarilla.</small></div>
-                            <div class="attr-card"><span>Puente UFO</span><small>Torre de observación con forma de platillo.</small></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="roadmap-item">
-                    <div class="roadmap-marker dot-bud"></div>
-                    <div class="roadmap-content">
-                        <div class="roadmap-city">Budapest <small style="color:var(--muted); font-weight:400; font-size:14px;">29 May—01 Jun</small></div>
-                        <div class="roadmap-address">Baross utca 98</div>
-                        <div class="attractions-grid">
-                            <div class="attr-card"><span>Parlamento</span><small>Visita obligatoria (mejor verlo de noche desde el río).</small></div>
-                            <div class="attr-card"><span>Termas Széchenyi</span><small>Baños de agua caliente al aire libre.</small></div>
-                            <div class="attr-card"><span>Ruin Bars (Szimpla Kert)</span><small>Bares en edificios abandonados.</small></div>
-                            <div class="attr-card"><span>Bastión Pescadores</span><small>La mejor vista panorámica de la ciudad.</small></div>
-                        </div>
-                    </div>
-                </div>
-
             </div>
         </div>
 
-        <div class="col-side">
-            <div class="card">
-                <div class="total-hero">
-                    <div style="font-size: 10px; color: var(--muted); letter-spacing: 2px; margin-bottom: 5px;">GASTO ESTIMADO P/P</div>
-                    <div class="total-val" id="totalVal">€0</div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-header"><span class="card-title">Cuentas Claras</span></div>
-                <div style="padding: 20px;" id="debtList">
-                    </div>
-            </div>
-
-            <div class="card" style="opacity: 0.7;">
-                <div class="card-header"><span class="card-title">Desglose de Pagos</span></div>
-                <div style="padding: 16px; font-size: 12px;" id="paymentSummary">
-                    </div>
-            </div>
+        <div class="card">
+            <div class="card-header">Mapa de Conexión</div>
+            <div id="map"></div>
         </div>
     </div>
+
+    <aside class="sidebar">
+        <div class="card">
+            <div class="card-header">Junio 2026</div>
+            <div class="cal-grid" id="calJunio"></div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">Cuentas Etapa 2 (División /2)</div>
+            <div style="padding: 10px 0;">
+                <div class="debt-line" style="border:none"><span>Vuelo (Fede pagó)</span><span id="pagoVuelo">€0</span></div>
+                <div class="debt-line" style="border:none"><span>Hostel (Tone pagó)</span><span id="pagoHostel">€0</span></div>
+            </div>
+            <div class="card-header" style="border-top: 1px solid var(--border);">Balance Etapa 2</div>
+            <div id="debtSummary"></div>
+            <div style="padding: 20px; text-align: center; background: rgba(251, 204, 21, 0.05);">
+                <div style="font-size: 10px; color: var(--muted);">TOTAL P/P ETAPA 2</div>
+                <div style="font-family: 'Outfit'; font-size: 32px; font-weight: 800;" id="totalPP">€0</div>
+            </div>
+        </div>
+    </aside>
 </div>
 
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-    const eur_usd = 0.93;
+    // 1. MAPA
+    const map = L.map('map', {zoomControl: false, attributionControl: false}).setView([49.5, 10.0], 5);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(map);
 
-    // Datos basados en tu última actualización
-    const pagos = {
-        tulio: 224.97, // Vuelo FRA
-        tone: 96.26 + 87.96 + 234.45 + 57.96 + 41.46, // Airbnbs y Flixbus varios
-        fede: (126.83 * eur_usd) + 432 // Airbnb Bratislava (USD a EUR) + Budapest
-    };
+    const points = [
+        {loc: [47.49, 19.04], col: '#10b981', name: 'Budapest'},
+        {loc: [51.05, 3.73], col: '#facc15', name: 'Gante (Bélgica)'}
+    ];
 
-    function process() {
-        const total = pagos.tulio + pagos.tone + pagos.fede;
-        const target = total / 3;
+    points.forEach(p => {
+        L.circleMarker(p.loc, {radius: 7, fillColor: p.col, color: p.col, weight: 1, fillOpacity: 1}).addTo(map);
+        L.circle(p.loc, {radius: 50000, color: p.col, weight: 0, fillOpacity: 0.2}).addTo(map);
+    });
+    
+    const latlngs = [[47.49, 19.04], [51.05, 3.73]];
+    L.polyline(latlngs, {color: '#ffffff', weight: 1, dashArray: '5, 10', opacity: 0.5}).addTo(map);
 
-        document.getElementById('totalVal').innerText = `€${target.toFixed(2)}`;
-
-        // Render de pagos
-        document.getElementById('paymentSummary').innerHTML = `
-            <div class="debt-row"><span>Tulio</span><span>€${pagos.tulio.toFixed(2)}</span></div>
-            <div class="debt-row"><span>Tone</span><span>€${pagos.tone.toFixed(2)}</span></div>
-            <div class="debt-row"><span>Fede</span><span>€${pagos.fede.toFixed(2)}</span></div>
-        `;
-
-        // Lógica de deudas
-        const balances = [
-            { name: 'Tulio', bal: pagos.tulio - target },
-            { name: 'Tone', bal: pagos.tone - target },
-            { name: 'Fede', bal: pagos.fede - target }
-        ];
-
-        let html = '';
-        const creditors = balances.filter(b => b.bal > 0);
-        const debtors = balances.filter(b => b.bal < 0);
-
-        debtors.forEach(d => {
-            creditors.forEach(c => {
-                const amount = Math.min(Math.abs(d.bal), c.bal);
-                if (amount > 0.1) {
-                    html += `
-                        <div class="debt-row">
-                            <span><b style="color:#f87171">${d.name}</b> paga a <b>${c.name}</b></span>
-                            <span style="font-family:'JetBrains Mono'; color:#34d399">€${amount.toFixed(2)}</span>
-                        </div>`;
-                    d.bal += amount;
-                    c.bal -= amount;
-                }
-            });
-        });
-        document.getElementById('debtList').innerHTML = html || '<p>Todo saldado.</p>';
+    // 2. CALENDARIO JUNIO 2026 (Empieza Lunes 1)
+    const cal = document.getElementById('calJunio');
+    const schedule = {2:'bel', 3:'bel', 4:'bel', 5:'bel', 6:'bel'};
+    for(let d=1; d<=30; d++) {
+        const type = schedule[d];
+        cal.innerHTML += `<div class="cal-day ${type?'cal-active':''}" style="${type?'background:var(--c-'+type+')':''}">${d}</div>`;
     }
 
-    process();
+    // 3. LÓGICA ECONÓMICA ETAPA 2
+    const usd_to_eur = 0.93;
+    const v_usd = 190;
+    const v_eur = v_usd * usd_to_eur;
+    const h_eur = 241.20;
+
+    function updateFinance() {
+        document.getElementById('pagoVuelo').innerText = `€${v_eur.toFixed(2)}`;
+        document.getElementById('pagoHostel').innerText = `€${h_eur.toFixed(2)}`;
+        
+        const total = v_eur + h_eur;
+        const target = total / 2;
+        document.getElementById('totalPP').innerText = `€${target.toFixed(2)}`;
+
+        // Quién debe a quién
+        // Fede pagó el vuelo (v_eur), Tone pagó el hostel (h_eur)
+        let html = "";
+        if (v_eur > target) {
+            html = `<div class="debt-line"><span><b>Tone</b> debe a Fede</span><span class="amt">€${(v_eur - target).toFixed(2)}</span></div>`;
+        } else {
+            html = `<div class="debt-line"><span><b>Fede</b> debe a Tone</span><span class="amt">€${(target - v_eur).toFixed(2)}</span></div>`;
+        }
+        document.getElementById('debtSummary').innerHTML = html;
+    }
+    updateFinance();
 </script>
 
 </body>
