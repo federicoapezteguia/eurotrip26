@@ -3,44 +3,59 @@
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Eurotrip 2026 — Etapa 2: Fede & Tone</title>
+    <title>Eurotrip 2026 — Master Plan</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;600;800&family=Inter:wght@400;500&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg: #05070a; --surface: #0f1219; --border: rgba(255,255,255,0.08); --text: #f0f2f5; --muted: #6b7280;
-            --c-bud: #10b981; --c-bel: #facc15; /* Amarillo Bélgica */
+            --c-fra: #818cf8; --c-pra: #f87171; --c-bra: #fbbf24; --c-bud: #10b981; --c-bel: #facc15;
         }
         *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-        body{ background:var(--bg); color:var(--text); font-family:'Inter', sans-serif; min-height:100vh; }
+        body{ background:var(--bg); color:var(--text); font-family:'Inter', sans-serif; min-height:100vh; padding-bottom: 50px; }
 
-        .container { max-width: 1400px; margin: 0 auto; padding: 40px 24px; display: grid; grid-template-columns: 1fr 400px; gap: 32px; }
+        .container { max-width: 1400px; margin: 0 auto; padding: 40px 24px; display: grid; grid-template-columns: 1fr 420px; gap: 32px; }
         @media (max-width: 1100px) { .container { grid-template-columns: 1fr; } }
 
-        h1 { font-family:'Outfit', sans-serif; font-size: 52px; font-weight: 800; letter-spacing: -2px; margin-bottom: 10px; }
-        .subtitle { color: var(--muted); margin-bottom: 30px; font-size: 14px; letter-spacing: 1px; text-transform: uppercase; }
+        header { margin-bottom: 40px; }
+        h1 { font-family:'Outfit', sans-serif; font-size: 64px; font-weight: 800; letter-spacing: -3px; line-height: 1; }
 
         .card { background: var(--surface); border: 1px solid var(--border); border-radius: 24px; overflow: hidden; margin-bottom: 24px; }
-        .card-header { padding: 16px 24px; border-bottom: 1px solid var(--border); font-family: 'Outfit', sans-serif; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+        .card-header { padding: 16px 24px; border-bottom: 1px solid var(--border); font-family: 'Outfit', sans-serif; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); font-weight: 700; background: rgba(255,255,255,0.01); }
+
+        .etapa-label { padding: 10px 24px; font-size: 10px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; background: rgba(255,255,255,0.03); color: var(--muted); border-bottom: 1px solid var(--border); }
 
         /* ITINERARIO */
         .roadmap-item { display: flex; gap: 20px; padding: 20px 24px; border-bottom: 1px solid rgba(255,255,255,0.03); }
-        .city-name { font-family: 'Outfit', sans-serif; font-size: 22px; font-weight: 600; color: #fff; display: flex; align-items: center; gap: 10px; }
-        .flight-info { font-size: 12px; color: var(--c-bel); font-family: 'JetBrains Mono'; margin: 5px 0; }
-        .mini-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
-        .tag { font-size: 11px; background: rgba(255,255,255,0.05); padding: 4px 10px; border-radius: 20px; color: #cbd5e1; }
+        .city-name { font-family: 'Outfit', sans-serif; font-size: 20px; font-weight: 600; color: #fff; display: flex; align-items: center; gap: 10px; }
+        .info-sub { font-size: 12px; color: var(--muted); font-family: 'JetBrains Mono'; margin: 4px 0; }
+        .addr { color: var(--c-bra); opacity: 0.8; font-size: 12px; }
+        
+        .tag { font-size: 10px; background: rgba(255,255,255,0.04); padding: 3px 8px; border-radius: 4px; color: #94a3b8; border: 1px solid rgba(255,255,255,0.05); margin-right: 5px; }
 
-        /* MAPA */
-        #map { height: 350px; width: 100%; background: #000; }
+        /* FINANZAS */
+        .eco-grid { padding: 20px; }
+        .per-person-card { background: rgba(255,255,255,0.03); padding: 15px; border-radius: 15px; text-align: center; margin-bottom: 20px; border: 1px solid var(--border); }
+        .per-person-label { font-size: 10px; color: var(--muted); letter-spacing: 1px; margin-bottom: 5px; }
+        .per-person-val { font-family: 'Outfit'; font-size: 32px; font-weight: 800; color: #fff; }
 
-        /* CALENDARIO JUNIO */
-        .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; padding: 20px; }
-        .cal-day { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; font-size: 11px; border-radius: 10px; background: rgba(255,255,255,0.02); color: var(--muted); }
+        .eco-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        .eco-table th { text-align: left; font-size: 10px; color: var(--muted); padding-bottom: 10px; text-transform: uppercase; }
+        .eco-table td { padding: 10px 0; font-size: 13px; border-bottom: 1px solid rgba(255,255,255,0.02); }
+        
+        .balance-box { background: rgba(16, 185, 129, 0.05); border-radius: 12px; padding: 15px; border: 1px solid rgba(16, 185, 129, 0.1); }
+        .balance-box.etapa2 { background: rgba(250, 204, 21, 0.05); border-color: rgba(250, 204, 21, 0.1); }
+        .balance-title { font-size: 11px; font-weight: 800; margin-bottom: 10px; color: #fff; opacity: 0.8; }
+        .debt-row { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 8px; }
+        .debt-row:last-child { margin-bottom: 0; }
+        .debt-row b { color: var(--c-pra); }
+        .val { font-family: 'JetBrains Mono'; font-weight: 600; }
+
+        #map { height: 400px; width: 100%; background: #000; }
+        .cal-container { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 20px; }
+        .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; }
+        .cal-day { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; font-size: 9px; border-radius: 5px; background: rgba(255,255,255,0.02); color: #4b5563; }
         .cal-active { font-weight: 800; color: #000; }
-
-        /* ECONOMÍA ETAPA 2 */
-        .debt-line { display: flex; justify-content: space-between; padding: 10px 20px; font-size: 13px; border-bottom: 1px solid var(--border); }
-        .amt { font-family: 'JetBrains Mono'; color: var(--c-bud); font-weight: 600; }
         .dot { width: 8px; height: 8px; border-radius: 50%; }
     </style>
 </head>
@@ -48,52 +63,93 @@
 
 <div class="container">
     <div class="main-content">
-        <h1>Etapa 2: <span>Bélgica</span></h1>
-        <div class="subtitle">Solo Fede & Tone · Cuentas desde cero</div>
+        <header><h1>Eurotrip <span>2026</span></h1></header>
         
         <div class="card">
-            <div class="card-header">Vuelo y Hospedaje</div>
+            <div class="card-header">Cronograma de Viaje</div>
+            
+            <div class="etapa-label">Etapa 1: Trío</div>
             <div class="roadmap-item">
                 <div style="flex:1">
-                    <div class="city-name"><div class="dot" style="background:var(--c-bud)"></div>Budapest → Charleroi</div>
-                    <div class="flight-info">Martes 02/06 · 13:40 → 15:45</div>
-                    <div class="mini-tags"><span class="tag">Vuelo: $190 USD</span></div>
+                    <div class="city-name"><div class="dot" style="background:var(--c-fra)"></div>Frankfurt / Praga / Bratislava</div>
+                    <div class="info-sub">24/05 al 29/05</div>
                 </div>
             </div>
             <div class="roadmap-item">
                 <div style="flex:1">
-                    <div class="city-name"><div class="dot" style="background:var(--c-bel)"></div>Gante / Bélgica</div>
-                    <div class="addr" style="color:var(--c-bel); font-size:12px; margin-top:5px;">KaBa Hostel (02/06 - 06/06)</div>
-                    <div class="mini-tags">
-                        <span class="tag">Graslei & Korenlei</span><span class="tag">Castillo de los Condes</span><span class="tag">Cervecería Dulle Teve</span>
-                    </div>
+                    <div class="city-name"><div class="dot" style="background:var(--c-bud)"></div>Budapest</div>
+                    <div class="info-sub">29/05 — 01/06</div>
+                    <div class="addr">Baross utca 98</div>
+                </div>
+            </div>
+
+            <div class="etapa-label" style="color: var(--c-bel)">Etapa 2: Dúo (Tone & Fede)</div>
+            <div class="roadmap-item" style="background: rgba(255,255,255,0.01)">
+                <div style="flex:1">
+                    <div class="city-name"><div class="dot" style="background:var(--c-pra)"></div>Budapest (Transición)</div>
+                    <div class="info-sub">01/06 — 02/06</div>
+                    <div class="addr">Wombat's City Hostel</div>
+                    <div style="margin-top:8px"><span class="tag">Fede pagó: €43.34</span></div>
+                </div>
+            </div>
+            <div class="roadmap-item" style="background: rgba(250, 204, 21, 0.015);">
+                <div style="flex:1">
+                    <div class="city-name"><div class="dot" style="background:var(--c-bel)"></div>Bélgica (Gante)</div>
+                    <div class="info-sub" style="color:var(--c-bel)">02/06 — 06/06</div>
+                    <div class="addr">KaBa Hostel · Vuelo BUD 13:40</div>
                 </div>
             </div>
         </div>
 
-        <div class="card">
-            <div class="card-header">Mapa de Conexión</div>
-            <div id="map"></div>
-        </div>
+        <div class="card"><div id="map"></div></div>
     </div>
 
     <aside class="sidebar">
         <div class="card">
-            <div class="card-header">Junio 2026</div>
-            <div class="cal-grid" id="calJunio"></div>
+            <div class="card-header">Calendario</div>
+            <div class="cal-container">
+                <div id="calM"></div><div id="calJ"></div>
+            </div>
         </div>
 
         <div class="card">
-            <div class="card-header">Cuentas Etapa 2 (División /2)</div>
-            <div style="padding: 10px 0;">
-                <div class="debt-line" style="border:none"><span>Vuelo (Fede pagó)</span><span id="pagoVuelo">€0</span></div>
-                <div class="debt-line" style="border:none"><span>Hostel (Tone pagó)</span><span id="pagoHostel">€0</span></div>
+            <div class="card-header">Gastos Etapa 1 (x3)</div>
+            <div class="eco-grid">
+                <div class="per-person-card">
+                    <div class="per-person-label">COSTO POR PERSONA</div>
+                    <div class="per-person-val">€431.00</div>
+                </div>
+                <table class="eco-table">
+                    <tr><th>Miembro</th><th>Total Pagado</th></tr>
+                    <tr><td>Tulio</td><td class="val">€224.97</td></tr>
+                    <tr><td>Tone</td><td class="val">€518.09</td></tr>
+                    <tr><td>Fede</td><td class="val">€549.95</td></tr>
+                </table>
+                <div class="balance-box">
+                    <div class="balance-title">LIQUIDACIÓN DE DEUDAS</div>
+                    <div class="debt-row"><span><b>Tulio</b> paga a Tone</span><span class="val">€120.30</span></div>
+                    <div class="debt-row"><span><b>Tulio</b> paga a Fede</span><span class="val">€85.73</span></div>
+                    <div class="debt-row"><span><b>Tone</b> paga a Fede</span><span class="val">€33.22</span></div>
+                </div>
             </div>
-            <div class="card-header" style="border-top: 1px solid var(--border);">Balance Etapa 2</div>
-            <div id="debtSummary"></div>
-            <div style="padding: 20px; text-align: center; background: rgba(251, 204, 21, 0.05);">
-                <div style="font-size: 10px; color: var(--muted);">TOTAL P/P ETAPA 2</div>
-                <div style="font-family: 'Outfit'; font-size: 32px; font-weight: 800;" id="totalPP">€0</div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">Gastos Etapa 2 (x2)</div>
+            <div class="eco-grid">
+                <div class="per-person-card" style="border-color: var(--c-bel)">
+                    <div class="per-person-label">COSTO POR PERSONA</div>
+                    <div class="per-person-val" style="color:var(--c-bel)">€230.62</div>
+                </div>
+                <table class="eco-table">
+                    <tr><th>Concepto</th><th>Pagó</th><th>Monto</th></tr>
+                    <tr><td>Wombat + Vuelo</td><td>Fede</td><td class="val">€220.04</td></tr>
+                    <tr><td>KaBa Hostel</td><td>Tone</td><td class="val">€241.20</td></tr>
+                </table>
+                <div class="balance-box etapa2">
+                    <div class="balance-title">LIQUIDACIÓN DE DEUDAS</div>
+                    <div id="debt2"></div>
+                </div>
             </div>
         </div>
     </aside>
@@ -101,57 +157,33 @@
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-    // 1. MAPA
-    const map = L.map('map', {zoomControl: false, attributionControl: false}).setView([49.5, 10.0], 5);
+    // MAPA
+    const map = L.map('map', {zoomControl: false, attributionControl: false}).setView([49.5, 13.0], 5);
     L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(map);
-
-    const points = [
-        {loc: [47.49, 19.04], col: '#10b981', name: 'Budapest'},
-        {loc: [51.05, 3.73], col: '#facc15', name: 'Gante (Bélgica)'}
-    ];
-
-    points.forEach(p => {
-        L.circleMarker(p.loc, {radius: 7, fillColor: p.col, color: p.col, weight: 1, fillOpacity: 1}).addTo(map);
-        L.circle(p.loc, {radius: 50000, color: p.col, weight: 0, fillOpacity: 0.2}).addTo(map);
+    [[50.1,8.6,'#818cf8'],[50,14.4,'#f87171'],[48.1,17.1,'#fbbf24'],[47.4,19,'#10b981'],[51,3.7,'#facc15']].forEach(l=>{
+        L.circleMarker([l[0],l[1]], {radius:6,fillColor:l[2],color:l[2],weight:1,fillOpacity:1}).addTo(map);
     });
-    
-    const latlngs = [[47.49, 19.04], [51.05, 3.73]];
-    L.polyline(latlngs, {color: '#ffffff', weight: 1, dashArray: '5, 10', opacity: 0.5}).addTo(map);
 
-    // 2. CALENDARIO JUNIO 2026 (Empieza Lunes 1)
-    const cal = document.getElementById('calJunio');
-    const schedule = {2:'bel', 3:'bel', 4:'bel', 5:'bel', 6:'bel'};
-    for(let d=1; d<=30; d++) {
-        const type = schedule[d];
-        cal.innerHTML += `<div class="cal-day ${type?'cal-active':''}" style="${type?'background:var(--c-'+type+')':''}">${d}</div>`;
-    }
-
-    // 3. LÓGICA ECONÓMICA ETAPA 2
-    const usd_to_eur = 0.93;
-    const v_usd = 190;
-    const v_eur = v_usd * usd_to_eur;
-    const h_eur = 241.20;
-
-    function updateFinance() {
-        document.getElementById('pagoVuelo').innerText = `€${v_eur.toFixed(2)}`;
-        document.getElementById('pagoHostel').innerText = `€${h_eur.toFixed(2)}`;
-        
-        const total = v_eur + h_eur;
-        const target = total / 2;
-        document.getElementById('totalPP').innerText = `€${target.toFixed(2)}`;
-
-        // Quién debe a quién
-        // Fede pagó el vuelo (v_eur), Tone pagó el hostel (h_eur)
-        let html = "";
-        if (v_eur > target) {
-            html = `<div class="debt-line"><span><b>Tone</b> debe a Fede</span><span class="amt">€${(v_eur - target).toFixed(2)}</span></div>`;
-        } else {
-            html = `<div class="debt-line"><span><b>Fede</b> debe a Tone</span><span class="amt">€${(target - v_eur).toFixed(2)}</span></div>`;
+    // CALENDARIOS
+    const renderCal = (el, start, days, sched, mName) => {
+        let h = `<div class="cal-month-name" style="font-size:10px; color:var(--muted); text-align:center; margin-bottom:10px; font-weight:800; text-transform:uppercase">${mName}</div><div class="cal-grid">`;
+        for(let i=0;i<start;i++) h+='<div></div>';
+        for(let d=1;d<=days;d++){
+            const t = sched[d];
+            h+=`<div class="cal-day ${t?'cal-active':''}" style="${t?'background:var(--c-'+t+')':''}">${d}</div>`;
         }
-        document.getElementById('debtSummary').innerHTML = html;
-    }
-    updateFinance();
-</script>
+        document.getElementById(el).innerHTML = h+'</div>';
+    };
+    renderCal('calM', 5, 31, {24:'fra',25:'fra',26:'pra',27:'pra',28:'bra',29:'bud',30:'bud',31:'bud'}, 'Mayo');
+    renderCal('calJ', 1, 30, {1:'pra',2:'bel',3:'bel',4:'bel',5:'bel',6:'bel'}, 'Junio');
 
+    // CÁLCULO ETAPA 2
+    const expF = 43.34 + 176.70; // Wombat + Vuelo
+    const expT = 241.20; // KaBa
+    const target2 = (expF + expT) / 2;
+    document.getElementById('debt2').innerHTML = expF > target2 
+        ? `<div class="debt-row"><span><b>Tone</b> paga a Fede</span><span class="val">€${(expF-target2).toFixed(2)}</span></div>`
+        : `<div class="debt-row"><span><b>Fede</b> paga a Tone</span><span class="val">€${(target2-expF).toFixed(2)}</span></div>`;
+</script>
 </body>
 </html>
