@@ -19,7 +19,6 @@
 
         header { margin-bottom: 40px; }
         h1 { font-family:'Outfit', sans-serif; font-size: 64px; font-weight: 800; letter-spacing: -3px; line-height: 1; }
-        h1 span { color: var(--c-pra); }
 
         .card { background: var(--surface); border: 1px solid var(--border); border-radius: 24px; overflow: hidden; margin-bottom: 24px; }
         .card-header { padding: 16px 24px; border-bottom: 1px solid var(--border); font-family: 'Outfit', sans-serif; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); font-weight: 700; background: rgba(255,255,255,0.01); }
@@ -27,9 +26,13 @@
         .etapa-label { padding: 12px 24px; font-size: 10px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; background: rgba(255,255,255,0.03); color: var(--muted); border-bottom: 1px solid var(--border); border-top: 1px solid var(--border); }
         .etapa-label:first-of-type { border-top: none; }
 
-        .roadmap-item { display: flex; gap: 20px; padding: 18px 24px; border-bottom: 1px solid rgba(255,255,255,0.03); }
-        .city-name { font-family: 'Outfit', sans-serif; font-size: 19px; font-weight: 600; color: #fff; display: flex; align-items: center; gap: 10px; }
-        .info-sub { font-size: 12px; color: var(--muted); font-family: 'JetBrains Mono'; margin: 4px 0; }
+        /* ITINERARIO */
+        .roadmap-item { display: flex; gap: 20px; padding: 22px 24px; border-bottom: 1px solid rgba(255,255,255,0.03); }
+        .loc-title { font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; gap: 8px; margin-bottom: 2px; }
+        .city-name { font-family: 'Outfit', sans-serif; font-size: 22px; font-weight: 600; color: #fff; line-height: 1.2; }
+        .info-sub { font-size: 12px; color: var(--muted); font-family: 'JetBrains Mono'; margin: 6px 0; }
+        .stay-info { font-size: 13px; color: #fff; opacity: 0.9; margin-top: 8px; font-weight: 500; border-left: 2px solid rgba(255,255,255,0.1); padding-left: 12px; }
+        .stay-addr { font-size: 11px; color: var(--muted); font-family: 'JetBrains Mono'; display: block; margin-top: 4px; }
 
         /* FINANZAS */
         .eco-grid { padding: 20px; }
@@ -61,42 +64,59 @@
         <header><h1>Eurotrip <span>2026</span></h1></header>
         
         <div class="card">
-            <div class="card-header">Cronograma de Viaje</div>
+            <div class="card-header">Itinerario Detallado</div>
             
             <div class="etapa-label">Etapa 1: Grupo (Tulio, Tone & Fede)</div>
             
             <div class="roadmap-item">
                 <div style="flex:1">
-                    <div class="city-name"><div class="dot" style="background:var(--c-por)"></div>Portugal</div>
+                    <div class="loc-title" style="color:var(--c-por)"><div class="dot" style="background:var(--c-por)"></div>Portugal</div>
+                    <div class="city-name">Oporto y Braga</div>
                     <div class="info-sub">22/05 — 24/05</div>
                 </div>
             </div>
 
             <div class="roadmap-item">
                 <div style="flex:1">
-                    <div class="city-name"><div class="dot" style="background:var(--c-fra)"></div>Frankfurt, Alemania</div>
+                    <div class="loc-title" style="color:var(--c-fra)"><div class="dot" style="background:var(--c-fra)"></div>Alemania</div>
+                    <div class="city-name">Frankfurt</div>
                     <div class="info-sub">24/05 — 26/05</div>
+                    <div class="stay-info">Airbnb
+                        <span class="stay-addr">Stiftsrabe 22, Frankfurt</span>
+                    </div>
                 </div>
             </div>
 
             <div class="roadmap-item">
                 <div style="flex:1">
-                    <div class="city-name"><div class="dot" style="background:var(--c-pra)"></div>Praga, Rep. Checa</div>
+                    <div class="loc-title" style="color:var(--c-pra)"><div class="dot" style="background:var(--c-pra)"></div>República Checa</div>
+                    <div class="city-name">Praga</div>
                     <div class="info-sub">26/05 — 28/05</div>
+                    <div class="stay-info">Airbnb
+                        <span class="stay-addr">Skorepka 3, Praga</span>
+                    </div>
                 </div>
             </div>
 
             <div class="roadmap-item">
                 <div style="flex:1">
-                    <div class="city-name"><div class="dot" style="background:var(--c-bra)"></div>Bratislava, Eslovaquia</div>
+                    <div class="loc-title" style="color:var(--c-bra)"><div class="dot" style="background:var(--c-bra)"></div>Eslovaquia</div>
+                    <div class="city-name">Bratislava</div>
                     <div class="info-sub">28/05 — 29/05</div>
+                    <div class="stay-info">Airbnb
+                        <span class="stay-addr">Zidovska 19, Bratislava</span>
+                    </div>
                 </div>
             </div>
 
             <div class="roadmap-item">
                 <div style="flex:1">
-                    <div class="city-name"><div class="dot" style="background:var(--c-bud)"></div>Budapest, Hungría</div>
+                    <div class="loc-title" style="color:var(--c-bud)"><div class="dot" style="background:var(--c-bud)"></div>Hungría</div>
+                    <div class="city-name">Budapest</div>
                     <div class="info-sub">29/05 — 01/06</div>
+                    <div class="stay-info">Airbnb
+                        <span class="stay-addr">Baross utca 98, Budapest</span>
+                    </div>
                 </div>
             </div>
 
@@ -104,15 +124,23 @@
 
             <div class="roadmap-item">
                 <div style="flex:1">
-                    <div class="city-name"><div class="dot" style="background:var(--c-bud)"></div>Budapest (Transición)</div>
+                    <div class="loc-title" style="color:var(--c-bud)"><div class="dot" style="background:var(--c-bud)"></div>Hungría</div>
+                    <div class="city-name">Budapest (Transición)</div>
                     <div class="info-sub">01/06 — 02/06</div>
+                    <div class="stay-info">Wombat's City Hostel
+                        <span class="stay-addr">Király u. 20, Budapest</span>
+                    </div>
                 </div>
             </div>
 
             <div class="roadmap-item">
                 <div style="flex:1">
-                    <div class="city-name"><div class="dot" style="background:var(--c-bel)"></div>Gante, Bélgica</div>
+                    <div class="loc-title" style="color:var(--c-bel)"><div class="dot" style="background:var(--c-bel)"></div>Bélgica</div>
+                    <div class="city-name">Gante</div>
                     <div class="info-sub">02/06 — 06/06</div>
+                    <div class="stay-info">KaBa Hostel
+                        <span class="stay-addr">Filips van Arteveldestraat 35, Gante</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -159,8 +187,8 @@
                 </div>
                 <table class="eco-table">
                     <tr><th>Item</th><th>Pagó</th><th>Monto</th></tr>
-                    <tr><td>Vuelo Bélgica</td><td>Fede</td><td class="val">€176.70</td></tr>
                     <tr><td>Hostel Wombat</td><td>Fede</td><td class="val">€43.34</td></tr>
+                    <tr><td>Vuelo Bélgica</td><td>Fede</td><td class="val">€176.70</td></tr>
                     <tr><td>Hostel KaBa</td><td>Tone</td><td class="val">€241.20</td></tr>
                 </table>
                 <div class="balance-box">
@@ -174,14 +202,12 @@
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-    // MAPA
     const map = L.map('map', {zoomControl: false, attributionControl: false}).setView([46, 6.0], 4);
     L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(map);
     [[38.7,-9.1,'#ef4444'],[50.1,8.6,'#818cf8'],[50,14.4,'#f87171'],[48.1,17.1,'#fbbf24'],[47.4,19,'#10b981'],[51,3.7,'#facc15']].forEach(l=>{
         L.circleMarker([l[0],l[1]], {radius:6,fillColor:l[2],color:l[2],weight:1,fillOpacity:1}).addTo(map);
     });
 
-    // CALENDARIOS
     const renderCal = (el, start, days, sched, mName) => {
         let h = `<div class="cal-month-name" style="font-size:9px; color:var(--muted); text-align:center; margin-bottom:8px; font-weight:800; text-transform:uppercase">${mName}</div><div class="cal-grid">`;
         for(let i=0;i<start;i++) h+='<div></div>';
@@ -194,7 +220,6 @@
     renderCal('calM', 5, 31, {22:'por',23:'por',24:'fra',25:'fra',26:'pra',27:'pra',28:'bra',29:'bud',30:'bud',31:'bud'}, 'Mayo');
     renderCal('calJ', 1, 30, {1:'bud',2:'bel',3:'bel',4:'bel',5:'bel',6:'bel'}, 'Junio');
 
-    // DEUDA ETAPA 2
     const expF2 = 43.34 + 176.70;
     const expT2 = 241.20;
     const target2 = (expF2 + expT2) / 2;
