@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Eurotrip 2026 — Master Plan</title>
+    <title>Eurotrip 2026 — Plan Maestro</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;600;800&family=Inter:wght@400;500&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg: #05070a; --surface: #0f1219; --border: rgba(255,255,255,0.08); --text: #f0f2f5; --muted: #6b7280;
-            --c-fra: #818cf8; --c-pra: #f87171; --c-bra: #fbbf24; --c-bud: #10b981; --c-bel: #facc15;
+            --c-por: #ef4444; --c-fra: #818cf8; --c-pra: #f87171; --c-bra: #fbbf24; --c-bud: #10b981; --c-bel: #facc15;
         }
         *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
         body{ background:var(--bg); color:var(--text); font-family:'Inter', sans-serif; min-height:100vh; padding-bottom: 50px; }
@@ -19,44 +19,39 @@
 
         header { margin-bottom: 40px; }
         h1 { font-family:'Outfit', sans-serif; font-size: 64px; font-weight: 800; letter-spacing: -3px; line-height: 1; }
+        h1 span { color: var(--c-pra); }
 
         .card { background: var(--surface); border: 1px solid var(--border); border-radius: 24px; overflow: hidden; margin-bottom: 24px; }
         .card-header { padding: 16px 24px; border-bottom: 1px solid var(--border); font-family: 'Outfit', sans-serif; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); font-weight: 700; background: rgba(255,255,255,0.01); }
 
-        .etapa-label { padding: 10px 24px; font-size: 10px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; background: rgba(255,255,255,0.03); color: var(--muted); border-bottom: 1px solid var(--border); }
+        .etapa-label { padding: 12px 24px; font-size: 10px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; background: rgba(255,255,255,0.03); color: var(--muted); border-bottom: 1px solid var(--border); border-top: 1px solid var(--border); }
+        .etapa-label:first-of-type { border-top: none; }
 
-        /* ITINERARIO */
-        .roadmap-item { display: flex; gap: 20px; padding: 20px 24px; border-bottom: 1px solid rgba(255,255,255,0.03); }
-        .city-name { font-family: 'Outfit', sans-serif; font-size: 20px; font-weight: 600; color: #fff; display: flex; align-items: center; gap: 10px; }
+        .roadmap-item { display: flex; gap: 20px; padding: 18px 24px; border-bottom: 1px solid rgba(255,255,255,0.03); }
+        .city-name { font-family: 'Outfit', sans-serif; font-size: 19px; font-weight: 600; color: #fff; display: flex; align-items: center; gap: 10px; }
         .info-sub { font-size: 12px; color: var(--muted); font-family: 'JetBrains Mono'; margin: 4px 0; }
-        .addr { color: var(--c-bra); opacity: 0.8; font-size: 12px; }
-        
-        .tag { font-size: 10px; background: rgba(255,255,255,0.04); padding: 3px 8px; border-radius: 4px; color: #94a3b8; border: 1px solid rgba(255,255,255,0.05); margin-right: 5px; }
 
         /* FINANZAS */
         .eco-grid { padding: 20px; }
         .per-person-card { background: rgba(255,255,255,0.03); padding: 15px; border-radius: 15px; text-align: center; margin-bottom: 20px; border: 1px solid var(--border); }
-        .per-person-label { font-size: 10px; color: var(--muted); letter-spacing: 1px; margin-bottom: 5px; }
+        .per-person-label { font-size: 9px; color: var(--muted); letter-spacing: 1px; margin-bottom: 3px; }
         .per-person-val { font-family: 'Outfit'; font-size: 32px; font-weight: 800; color: #fff; }
 
         .eco-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
-        .eco-table th { text-align: left; font-size: 10px; color: var(--muted); padding-bottom: 10px; text-transform: uppercase; }
-        .eco-table td { padding: 10px 0; font-size: 13px; border-bottom: 1px solid rgba(255,255,255,0.02); }
+        .eco-table th { text-align: left; font-size: 9px; color: var(--muted); padding-bottom: 8px; text-transform: uppercase; }
+        .eco-table td { padding: 8px 0; font-size: 13px; border-bottom: 1px solid rgba(255,255,255,0.02); }
         
-        .balance-box { background: rgba(16, 185, 129, 0.05); border-radius: 12px; padding: 15px; border: 1px solid rgba(16, 185, 129, 0.1); }
-        .balance-box.etapa2 { background: rgba(250, 204, 21, 0.05); border-color: rgba(250, 204, 21, 0.1); }
-        .balance-title { font-size: 11px; font-weight: 800; margin-bottom: 10px; color: #fff; opacity: 0.8; }
+        .balance-box { background: rgba(255,255,255,0.02); border-radius: 12px; padding: 15px; border: 1px solid var(--border); }
+        .balance-title { font-size: 10px; font-weight: 800; margin-bottom: 10px; color: var(--muted); text-transform: uppercase; }
         .debt-row { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 8px; }
-        .debt-row:last-child { margin-bottom: 0; }
-        .debt-row b { color: var(--c-pra); }
-        .val { font-family: 'JetBrains Mono'; font-weight: 600; }
+        .val { font-family: 'JetBrains Mono'; font-weight: 600; color: #fff; }
 
         #map { height: 400px; width: 100%; background: #000; }
         .cal-container { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 20px; }
         .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; }
         .cal-day { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; font-size: 9px; border-radius: 5px; background: rgba(255,255,255,0.02); color: #4b5563; }
         .cal-active { font-weight: 800; color: #000; }
-        .dot { width: 8px; height: 8px; border-radius: 50%; }
+        .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
     </style>
 </head>
 <body>
@@ -68,35 +63,56 @@
         <div class="card">
             <div class="card-header">Cronograma de Viaje</div>
             
-            <div class="etapa-label">Etapa 1: Trío</div>
+            <div class="etapa-label">Etapa 1: Grupo (Tulio, Tone & Fede)</div>
+            
             <div class="roadmap-item">
                 <div style="flex:1">
-                    <div class="city-name"><div class="dot" style="background:var(--c-fra)"></div>Frankfurt / Praga / Bratislava</div>
-                    <div class="info-sub">24/05 al 29/05</div>
-                </div>
-            </div>
-            <div class="roadmap-item">
-                <div style="flex:1">
-                    <div class="city-name"><div class="dot" style="background:var(--c-bud)"></div>Budapest</div>
-                    <div class="info-sub">29/05 — 01/06</div>
-                    <div class="addr">Baross utca 98</div>
+                    <div class="city-name"><div class="dot" style="background:var(--c-por)"></div>Portugal</div>
+                    <div class="info-sub">22/05 — 24/05</div>
                 </div>
             </div>
 
-            <div class="etapa-label" style="color: var(--c-bel)">Etapa 2: Dúo (Tone & Fede)</div>
-            <div class="roadmap-item" style="background: rgba(255,255,255,0.01)">
+            <div class="roadmap-item">
                 <div style="flex:1">
-                    <div class="city-name"><div class="dot" style="background:var(--c-pra)"></div>Budapest (Transición)</div>
-                    <div class="info-sub">01/06 — 02/06</div>
-                    <div class="addr">Wombat's City Hostel</div>
-                    <div style="margin-top:8px"><span class="tag">Fede pagó: €43.34</span></div>
+                    <div class="city-name"><div class="dot" style="background:var(--c-fra)"></div>Frankfurt, Alemania</div>
+                    <div class="info-sub">24/05 — 26/05</div>
                 </div>
             </div>
-            <div class="roadmap-item" style="background: rgba(250, 204, 21, 0.015);">
+
+            <div class="roadmap-item">
                 <div style="flex:1">
-                    <div class="city-name"><div class="dot" style="background:var(--c-bel)"></div>Bélgica (Gante)</div>
-                    <div class="info-sub" style="color:var(--c-bel)">02/06 — 06/06</div>
-                    <div class="addr">KaBa Hostel · Vuelo BUD 13:40</div>
+                    <div class="city-name"><div class="dot" style="background:var(--c-pra)"></div>Praga, Rep. Checa</div>
+                    <div class="info-sub">26/05 — 28/05</div>
+                </div>
+            </div>
+
+            <div class="roadmap-item">
+                <div style="flex:1">
+                    <div class="city-name"><div class="dot" style="background:var(--c-bra)"></div>Bratislava, Eslovaquia</div>
+                    <div class="info-sub">28/05 — 29/05</div>
+                </div>
+            </div>
+
+            <div class="roadmap-item">
+                <div style="flex:1">
+                    <div class="city-name"><div class="dot" style="background:var(--c-bud)"></div>Budapest, Hungría</div>
+                    <div class="info-sub">29/05 — 01/06</div>
+                </div>
+            </div>
+
+            <div class="etapa-label">Etapa 2: Dúo (Tone & Fede)</div>
+
+            <div class="roadmap-item">
+                <div style="flex:1">
+                    <div class="city-name"><div class="dot" style="background:var(--c-bud)"></div>Budapest (Transición)</div>
+                    <div class="info-sub">01/06 — 02/06</div>
+                </div>
+            </div>
+
+            <div class="roadmap-item">
+                <div style="flex:1">
+                    <div class="city-name"><div class="dot" style="background:var(--c-bel)"></div>Gante, Bélgica</div>
+                    <div class="info-sub">02/06 — 06/06</div>
                 </div>
             </div>
         </div>
@@ -113,9 +129,9 @@
         </div>
 
         <div class="card">
-            <div class="card-header">Gastos Etapa 1 (x3)</div>
+            <div class="card-header">Finanzas Etapa 1 (x3)</div>
             <div class="eco-grid">
-                <div class="per-person-card">
+                <div class="per-person-card" style="border-left: 4px solid var(--c-bud)">
                     <div class="per-person-label">COSTO POR PERSONA</div>
                     <div class="per-person-val">€431.00</div>
                 </div>
@@ -126,28 +142,29 @@
                     <tr><td>Fede</td><td class="val">€549.95</td></tr>
                 </table>
                 <div class="balance-box">
-                    <div class="balance-title">LIQUIDACIÓN DE DEUDAS</div>
-                    <div class="debt-row"><span><b>Tulio</b> paga a Tone</span><span class="val">€120.30</span></div>
-                    <div class="debt-row"><span><b>Tulio</b> paga a Fede</span><span class="val">€85.73</span></div>
-                    <div class="debt-row"><span><b>Tone</b> paga a Fede</span><span class="val">€33.22</span></div>
+                    <div class="balance-title">Liquidación Etapa 1</div>
+                    <div class="debt-row"><span>Tulio debe a Tone</span><span class="val">€120.30</span></div>
+                    <div class="debt-row"><span>Tulio debe a Fede</span><span class="val">€85.73</span></div>
+                    <div class="debt-row"><span>Tone debe a Fede</span><span class="val">€33.22</span></div>
                 </div>
             </div>
         </div>
 
         <div class="card">
-            <div class="card-header">Gastos Etapa 2 (x2)</div>
+            <div class="card-header">Finanzas Etapa 2 (x2)</div>
             <div class="eco-grid">
-                <div class="per-person-card" style="border-color: var(--c-bel)">
+                <div class="per-person-card" style="border-left: 4px solid var(--c-bel)">
                     <div class="per-person-label">COSTO POR PERSONA</div>
-                    <div class="per-person-val" style="color:var(--c-bel)">€230.62</div>
+                    <div class="per-person-val">€230.62</div>
                 </div>
                 <table class="eco-table">
-                    <tr><th>Concepto</th><th>Pagó</th><th>Monto</th></tr>
-                    <tr><td>Wombat + Vuelo</td><td>Fede</td><td class="val">€220.04</td></tr>
-                    <tr><td>KaBa Hostel</td><td>Tone</td><td class="val">€241.20</td></tr>
+                    <tr><th>Item</th><th>Pagó</th><th>Monto</th></tr>
+                    <tr><td>Vuelo Bélgica</td><td>Fede</td><td class="val">€176.70</td></tr>
+                    <tr><td>Hostel Wombat</td><td>Fede</td><td class="val">€43.34</td></tr>
+                    <tr><td>Hostel KaBa</td><td>Tone</td><td class="val">€241.20</td></tr>
                 </table>
-                <div class="balance-box etapa2">
-                    <div class="balance-title">LIQUIDACIÓN DE DEUDAS</div>
+                <div class="balance-box">
+                    <div class="balance-title" style="color:var(--c-bel)">Liquidación Etapa 2</div>
                     <div id="debt2"></div>
                 </div>
             </div>
@@ -158,15 +175,15 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
     // MAPA
-    const map = L.map('map', {zoomControl: false, attributionControl: false}).setView([49.5, 13.0], 5);
+    const map = L.map('map', {zoomControl: false, attributionControl: false}).setView([46, 6.0], 4);
     L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(map);
-    [[50.1,8.6,'#818cf8'],[50,14.4,'#f87171'],[48.1,17.1,'#fbbf24'],[47.4,19,'#10b981'],[51,3.7,'#facc15']].forEach(l=>{
+    [[38.7,-9.1,'#ef4444'],[50.1,8.6,'#818cf8'],[50,14.4,'#f87171'],[48.1,17.1,'#fbbf24'],[47.4,19,'#10b981'],[51,3.7,'#facc15']].forEach(l=>{
         L.circleMarker([l[0],l[1]], {radius:6,fillColor:l[2],color:l[2],weight:1,fillOpacity:1}).addTo(map);
     });
 
     // CALENDARIOS
     const renderCal = (el, start, days, sched, mName) => {
-        let h = `<div class="cal-month-name" style="font-size:10px; color:var(--muted); text-align:center; margin-bottom:10px; font-weight:800; text-transform:uppercase">${mName}</div><div class="cal-grid">`;
+        let h = `<div class="cal-month-name" style="font-size:9px; color:var(--muted); text-align:center; margin-bottom:8px; font-weight:800; text-transform:uppercase">${mName}</div><div class="cal-grid">`;
         for(let i=0;i<start;i++) h+='<div></div>';
         for(let d=1;d<=days;d++){
             const t = sched[d];
@@ -174,16 +191,14 @@
         }
         document.getElementById(el).innerHTML = h+'</div>';
     };
-    renderCal('calM', 5, 31, {24:'fra',25:'fra',26:'pra',27:'pra',28:'bra',29:'bud',30:'bud',31:'bud'}, 'Mayo');
-    renderCal('calJ', 1, 30, {1:'pra',2:'bel',3:'bel',4:'bel',5:'bel',6:'bel'}, 'Junio');
+    renderCal('calM', 5, 31, {22:'por',23:'por',24:'fra',25:'fra',26:'pra',27:'pra',28:'bra',29:'bud',30:'bud',31:'bud'}, 'Mayo');
+    renderCal('calJ', 1, 30, {1:'bud',2:'bel',3:'bel',4:'bel',5:'bel',6:'bel'}, 'Junio');
 
-    // CÁLCULO ETAPA 2
-    const expF = 43.34 + 176.70; // Wombat + Vuelo
-    const expT = 241.20; // KaBa
-    const target2 = (expF + expT) / 2;
-    document.getElementById('debt2').innerHTML = expF > target2 
-        ? `<div class="debt-row"><span><b>Tone</b> paga a Fede</span><span class="val">€${(expF-target2).toFixed(2)}</span></div>`
-        : `<div class="debt-row"><span><b>Fede</b> paga a Tone</span><span class="val">€${(target2-expF).toFixed(2)}</span></div>`;
+    // DEUDA ETAPA 2
+    const expF2 = 43.34 + 176.70;
+    const expT2 = 241.20;
+    const target2 = (expF2 + expT2) / 2;
+    document.getElementById('debt2').innerHTML = `<div class="debt-row"><span>Fede debe a Tone</span><span class="val">€${(target2-expF2).toFixed(2)}</span></div>`;
 </script>
 </body>
 </html>
