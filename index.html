@@ -9,7 +9,7 @@
     <style>
         :root {
             --bg: #05070a; --surface: #0f1219; --border: rgba(255,255,255,0.08); --text: #f0f2f5; --muted: #6b7280;
-            --c-por: #ef4444; --c-fra: #818cf8; --c-pra: #f87171; --c-bra: #fbbf24; --c-bud: #10b981; --c-bel: #facc15;
+            --c-por: #ef4444; --c-fra: #818cf8; --c-pra: #f87171; --c-bra: #fbbf24; --c-bud: #10b981; --c-bel: #facc15; --c-mad: #ff7a00;
         }
         *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
         body{ background:var(--bg); color:var(--text); font-family:'Inter', sans-serif; min-height:100vh; padding-bottom: 50px; }
@@ -143,6 +143,19 @@
                     </div>
                 </div>
             </div>
+
+            <div class="etapa-label">Extensión: Solo Fede</div>
+
+            <div class="roadmap-item">
+                <div style="flex:1">
+                    <div class="loc-title" style="color:var(--c-mad)"><div class="dot" style="background:var(--c-mad)"></div>España</div>
+                    <div class="city-name">Madrid</div>
+                    <div class="info-sub">06/06 — 09/06</div>
+                    <div class="stay-info">Mola! Hostel
+                        <span class="stay-addr">C. de Atocha 16, Madrid</span>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="card"><div id="map"></div></div>
@@ -202,9 +215,9 @@
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-    const map = L.map('map', {zoomControl: false, attributionControl: false}).setView([46, 6.0], 4);
+    const map = L.map('map', {zoomControl: false, attributionControl: false}).setView([46, 3.0], 4);
     L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(map);
-    [[38.7,-9.1,'#ef4444'],[50.1,8.6,'#818cf8'],[50,14.4,'#f87171'],[48.1,17.1,'#fbbf24'],[47.4,19,'#10b981'],[51,3.7,'#facc15']].forEach(l=>{
+    [[38.7,-9.1,'#ef4444'],[50.1,8.6,'#818cf8'],[50,14.4,'#f87171'],[48.1,17.1,'#fbbf24'],[47.4,19,'#10b981'],[51,3.7,'#facc15'],[40.4,-3.7,'#ff7a00']].forEach(l=>{
         L.circleMarker([l[0],l[1]], {radius:6,fillColor:l[2],color:l[2],weight:1,fillOpacity:1}).addTo(map);
     });
 
@@ -218,7 +231,7 @@
         document.getElementById(el).innerHTML = h+'</div>';
     };
     renderCal('calM', 5, 31, {22:'por',23:'por',24:'fra',25:'fra',26:'pra',27:'pra',28:'bra',29:'bud',30:'bud',31:'bud'}, 'Mayo');
-    renderCal('calJ', 1, 30, {1:'bud',2:'bel',3:'bel',4:'bel',5:'bel',6:'bel'}, 'Junio');
+    renderCal('calJ', 1, 30, {1:'bud',2:'bel',3:'bel',4:'bel',5:'bel',6:'bel',7:'mad',8:'mad',9:'mad'}, 'Junio');
 
     const expF2 = 43.34 + 176.70;
     const expT2 = 241.20;
