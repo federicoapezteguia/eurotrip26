@@ -9,7 +9,7 @@
     <style>
         :root {
             --bg: #05070a; --surface: #0f1219; --border: rgba(255,255,255,0.08); --text: #f0f2f5; --muted: #6b7280;
-            --c-por: #ef4444; --c-fra: #818cf8; --c-pra: #f87171; --c-bra: #fbbf24; --c-bud: #10b981; --c-bel: #facc15; --c-mad: #ff7a00;
+            --c-por: #ef4444; --c-nan: #a855f7; --c-pra: #f87171; --c-bra: #fbbf24; --c-bud: #10b981; --c-bel: #facc15; --c-mad: #ff7a00;
         }
         *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
         body{ background:var(--bg); color:var(--text); font-family:'Inter', sans-serif; min-height:100vh; padding-bottom: 50px; }
@@ -78,11 +78,11 @@
 
             <div class="roadmap-item">
                 <div style="flex:1">
-                    <div class="loc-title" style="color:var(--c-fra)"><div class="dot" style="background:var(--c-fra)"></div>Alemania</div>
-                    <div class="city-name">Frankfurt</div>
-                    <div class="info-sub">24/05 — 26/05</div>
-                    <div class="stay-info">Airbnb
-                        <span class="stay-addr">Stiftsrabe 22, Frankfurt</span>
+                    <div class="loc-title" style="color:var(--c-nan)"><div class="dot" style="background:var(--c-nan)"></div>Francia</div>
+                    <div class="city-name">Nantes</div>
+                    <div class="info-sub">24/05 — 25/05</div>
+                    <div class="stay-info">Hotel Nantes (1 Noche)
+                        <span class="stay-addr">Vuelo a Praga: Lunes 25/05 a las 12:00 hs</span>
                     </div>
                 </div>
             </div>
@@ -91,7 +91,7 @@
                 <div style="flex:1">
                     <div class="loc-title" style="color:var(--c-pra)"><div class="dot" style="background:var(--c-pra)"></div>República Checa</div>
                     <div class="city-name">Praga</div>
-                    <div class="info-sub">26/05 — 28/05</div>
+                    <div class="info-sub">25/05 — 28/05</div>
                     <div class="stay-info">Airbnb
                         <span class="stay-addr">Skorepka 3, Praga</span>
                     </div>
@@ -172,21 +172,20 @@
         <div class="card">
             <div class="card-header">Finanzas Etapa 1 (x3)</div>
             <div class="eco-grid">
-                <div class="per-person-card" style="border-left: 4px solid var(--c-bud)">
+                <div class="per-person-card" style="border-left: 4px solid var(--c-nan)">
                     <div class="per-person-label">COSTO POR PERSONA</div>
-                    <div class="per-person-val">€431.00</div>
+                    <div class="per-person-val">€621.05</div>
                 </div>
                 <table class="eco-table">
                     <tr><th>Miembro</th><th>Total Pagado</th></tr>
-                    <tr><td>Tulio</td><td class="val">€224.97</td></tr>
-                    <tr><td>Tone</td><td class="val">€518.09</td></tr>
+                    <tr><td>Tulio</td><td class="val">€599.97</td></tr>
+                    <tr><td>Tone</td><td class="val">€776.09</td></tr>
                     <tr><td>Fede</td><td class="val">€549.95</td></tr>
                 </table>
                 <div class="balance-box">
                     <div class="balance-title">Liquidación Etapa 1</div>
-                    <div class="debt-row"><span>Tulio debe a Tone</span><span class="val">€120.30</span></div>
-                    <div class="debt-row"><span>Tulio debe a Fede</span><span class="val">€85.73</span></div>
-                    <div class="debt-row"><span>Tone debe a Fede</span><span class="val">€33.22</span></div>
+                    <div class="debt-row"><span>Tulio debe a Tone</span><span class="val">€21.08</span></div>
+                    <div class="debt-row"><span>Fede debe a Tone</span><span class="val">€71.10</span></div>
                 </div>
             </div>
         </div>
@@ -217,7 +216,8 @@
 <script>
     const map = L.map('map', {zoomControl: false, attributionControl: false}).setView([46, 3.0], 4);
     L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(map);
-    [[38.7,-9.1,'#ef4444'],[50.1,8.6,'#818cf8'],[50,14.4,'#f87171'],[48.1,17.1,'#fbbf24'],[47.4,19,'#10b981'],[51,3.7,'#facc15'],[40.4,-3.7,'#ff7a00']].forEach(l=>{
+    
+    [[38.7,-9.1,'#ef4444'],[47.2,-1.5,'#a855f7'],[50,14.4,'#f87171'],[48.1,17.1,'#fbbf24'],[47.4,19,'#10b981'],[51,3.7,'#facc15'],[40.4,-3.7,'#ff7a00']].forEach(l=>{
         L.circleMarker([l[0],l[1]], {radius:6,fillColor:l[2],color:l[2],weight:1,fillOpacity:1}).addTo(map);
     });
 
@@ -230,7 +230,8 @@
         }
         document.getElementById(el).innerHTML = h+'</div>';
     };
-    renderCal('calM', 5, 31, {22:'por',23:'por',24:'fra',25:'fra',26:'pra',27:'pra',28:'bra',29:'bud',30:'bud',31:'bud'}, 'Mayo');
+    // Ajustado: El día 24 asignado a Nantes ('nan') y el 25 ya pasa a Praga ('pra')
+    renderCal('calM', 5, 31, {22:'por',23:'por',24:'nan',25:'pra',26:'pra',27:'pra',28:'bra',29:'bud',30:'bud',31:'bud'}, 'Mayo');
     renderCal('calJ', 1, 30, {1:'bud',2:'bel',3:'bel',4:'bel',5:'bel',6:'bel',7:'mad',8:'mad',9:'mad'}, 'Junio');
 
     const expF2 = 43.34 + 176.70;
